@@ -1,6 +1,6 @@
 # Skill Tree
 ## Context:
-This personal project Skill Tree is a test to learn to code on Flutter/Dart a programming language used for mobile apps Here a list of apps coded with flutter : https://flutter.dev/showcase.
+This personal project is a Skill Tree in real life. It is a test to learn how to code in Flutter/Dart a programming language used for mobile apps. Here a list of apps coded with flutter : https://flutter.dev/showcase.
 ## Required:
 This project only includes the .dart scripts that have been coded because entire file was too large. You can directly implement this code in your Flutter folder and modify it. You must also have imported these libraries :
 ```
