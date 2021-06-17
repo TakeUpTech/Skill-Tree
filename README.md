@@ -21,6 +21,7 @@ Characteristics of the app are the following:
 - A simple and easy-to-use interface to gain maximum time for activities.
 ## Set-up:
 If you want to know how to set-up Flutter and Dart: plugins, SDK, import libraries with the terminal... this video explains everything :
+
 Or you can also read this little guide to help you to configure your environment :
 ### 1) Global setup
 - Install Intellij --> install plugins Flutter and Dart (auto), 
