@@ -25,7 +25,7 @@ If you want to know how to set-up Flutter and Dart: plugins, SDK, import librari
 Or you can also read this little guide to help you to configure your environment :
 ### 1) Global setup
 - Install Intellij --> install plugins Flutter and Dart (auto), 
-- Install flutter zip file on the flutter web site,
+- Install flutter zip file on the flutter web site : https://flutter.dev/docs/get-started/install,
 - Install Java and JDK,
 - Install Android studio.
 
