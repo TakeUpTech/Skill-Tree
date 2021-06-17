@@ -7,6 +7,7 @@ class PreferencesService{
 
     await prefs.setInt('reserve', settings.reserve);
     await prefs.setStringList('level', settings.level.map((i) => i.toString()).toList());
+    await prefs.setInt('globalLevel', settings.globalLevel);
 
     print('Saved Settings');
   }
@@ -16,10 +17,12 @@ class PreferencesService{
 
     final reserve = prefs.getInt('reserve');
     final level = prefs.getStringList('level')!.map((e) => int.parse(e)).toList();
+    final globalLevel = prefs.getInt('globalLevel');
 
     return Settings(
         reserve: reserve!.toInt(),
-        level: level
+        level: level,
+        globalLevel: globalLevel!.toInt()
     );
   }
 }

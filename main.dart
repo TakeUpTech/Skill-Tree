@@ -16,11 +16,8 @@ void main() {
 late Timer _timer;
 
 void giftDay(){
-  print('start');
-
-  _timer = Timer.periodic(Duration(seconds: 60), (timer) {
+  _timer = Timer.periodic(Duration(minutes: 1), (timer) {
     reserve++;
-    print('+1');
   });
 }
 
@@ -73,6 +70,7 @@ class _Home extends State<Home> {
     setState(() {
       descriptions = [false, false, false, false, false, false, false, false, false, false];
       level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      globalLevel = 0;
       reserve = 10;
     });
     _Body().commitSettings();
@@ -88,31 +86,33 @@ class Body extends StatefulWidget {
 
 List<bool> descriptions = [false, false, false, false, false, false, false, false, false, false];
 List<int> level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+List<int> levelMax = [2, 5, 5, 3, 5, 5, 5, 3, 3, 8];
 List<String> textTitle = [
-  'Skill 1',
-  'Skill 2',
-  'Skill 3',
-  'Skill 4',
-  'Skill 5',
-  'Skill 6',
-  'Skill 7',
-  'Skill 8',
-  'Skill 9',
-  'Skill 10'
+  'Vie',
+  'Santé',
+  'Infos',
+  'Social',
+  'Art',
+  'Bio',
+  'Meet',
+  'Acro',
+  'Sport',
+  'Work'
 ];
 List<String> textDescriptions = [
-  'Description 1',
-  'Description 2',
-  'Description 3',
-  'Description 4',
-  'Description 5',
-  'Description 6',
-  'Description 7',
-  'Description 8',
-  'Description 9',
-  'Description 10'
+  'Ranger, organiser et trier son espace de vie (ordinateur, vêtements, dossiers...) 1/2 fois par semaines. Le niveau est validé après une période de 1 mois.',
+  'Mange 1/2/3/4/5 fruits ou légumes par jour. Le niveau est validé après une période de 1 mois.',
+  'Renseige toi sur 1/2/3/4/5 domaines ou thèmes que tu ne connais que de nom. Une information est dite "acquise" si elle a été étudiée durant au moins 4 heures.',
+  'Organise des sorties avec tes amis/es 2/4/6 fois toutes les 2 semaines. Le niveau est validé après une période de 1 mois.',
+  'Pratique une activité type artistique ou littéraire durant 2/3/4/5/6 heures par semaine. Le niveau est validé après une période de 2 semaines.',
+  'Achète bio et cuisine 1/2/3/4/5 plats avec des aliments frais et sains chaque semaine. Le niveau est validé après une période de 2 semaines.',
+  'Découvre et débat avec de 1/2/3/4/5 nouvelles personnes appartenant ou non à des communautés. Une discussion doit être à la hauteur de 50 messages au total.',
+  'Réduire son utilisation du smartphone pour une consommation maximale de 5/3/1 heures par jour. Le niveau est validé après une période de 1 semaine.',
+  'Pratique du sport 2,5/5/7 heures par semaine (selon l\'OMS). Le niveau est validé après une période de 1 mois.',
+  'Travail durant une durée totale de 1/2/3/4/5/6/7/8 heures par jour. Le niveau est validé après une période de 1 semaine.'
 ];
 String mainText = '#N/A';
+int globalLevel = 0;
 int reserve = 10;
 
 class _Body extends State<Body> {
@@ -130,6 +130,7 @@ class _Body extends State<Body> {
     setState(() {
       reserve = settings.reserve;
       level = settings.level;
+      globalLevel = settings.globalLevel;
     });
   }
 
@@ -141,8 +142,8 @@ class _Body extends State<Body> {
   Color textColor = Colors.white;
   Color textUpgradeColor = Colors.black;
 
-  double skillHeight = 55;
-  double skillWidth = 55;
+  double skillHeight = 56;
+  double skillWidth = 56;
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +152,14 @@ class _Body extends State<Body> {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Text(
+              'Global Level : ' + globalLevel.toString(),
+              style: TextStyle(color: Colors.white, fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ),
           lineSkillBox(1, 3),
           lineSkillBox(5, 2),
           lineSkillBox(8, 1),
@@ -190,15 +199,17 @@ class _Body extends State<Body> {
       margin: EdgeInsets.only(top: 10.0, bottom: 5.0),
       decoration: BoxDecoration(
         border: Border.all(color: treeLineColor, width: 3),
-        color: (level[index] == 5) ? skillMaxColor : skillColor,
+        color: (level[index] == levelMax[index]) ? skillMaxColor : skillColor,
       ),
       child: TextButton(
         onPressed: () => showDescription(index, textDescriptions[index]),
-        child: Text(
+        child: AutoSizeText(
           textTitle[index],
           textAlign: TextAlign.center,
+          maxLines: 1,
           style: TextStyle(
-            color: (level[index] == 5) ? textUpgradeColor : textColor,
+            color: (level[index] == levelMax[index]) ? textUpgradeColor : textColor,
+            fontSize: 14
           )
         )
       )
@@ -209,9 +220,10 @@ class _Body extends State<Body> {
     return Visibility(
       visible: descriptions[index],
       child: Container(
-        height: 200,
-        width: MediaQuery.of(context).size.width-60,
+        height: 170,
+        width: MediaQuery.of(context).size.width-20,
         margin: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(left: 10, right: 10),
         color: upgradePanelColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -226,7 +238,7 @@ class _Body extends State<Body> {
               backgroundColor: addButtonColor,
               child: Icon(Icons.add)
             ),
-            Text('Niveau ' + level[index].toString()),
+            Text('Niveau ' + level[index].toString() + '/' + levelMax[index].toString()),
             Text('Points disponibles : ' + reserve.toString())
           ]
         )
@@ -248,9 +260,10 @@ class _Body extends State<Body> {
 
   void updateLevel(int index){
     setState(() {
-      if(reserve > 0 && level[index] <= 4){
+      if(reserve > 0 && level[index] <= levelMax[index]-1){
         reserve--;
         level[index]++;
+        globalLevel++;
       }
     });
     commitSettings();
@@ -259,7 +272,8 @@ class _Body extends State<Body> {
   void commitSettings(){
     final newSettings = Settings(
         reserve: reserve,
-        level: level
+        level: level,
+        globalLevel: globalLevel
     );
     prefs.saveSettings(newSettings);
   }
