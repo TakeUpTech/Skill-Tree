@@ -32,7 +32,7 @@ Or you can also read this little guide to help you to configure your environment
 ### 2) Import lib and use flutter commands in terminal :
 Add in Path in Environment variable : C:\Users\yourName\flutter\bin
 ### 3) Fix error lib import on Intellij :
-Open Edit Configuration --> Additionnal run args and add :
+Open 'Edit Configuration' --> 'Additionnal run args' and add :
 ```
 --no-sound-null-safety
 ```
