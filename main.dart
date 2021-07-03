@@ -1,25 +1,28 @@
-import 'dart:async';
+//import 'dart:async';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:skill_tree/pref_service.dart';
-
 import 'models.dart';
 
 void main() {
-  giftDay();
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  //giftDay();
   runApp(new MyApp());
 }
 
 // ignore: unused_element
-late Timer _timer;
+//late Timer _timer;
 
-void giftDay(){
+/*void giftDay(){
   _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+    print('+1');
     reserve++;
   });
-}
+}*/
 
 class MyApp extends StatelessWidget {
   @override
@@ -54,6 +57,13 @@ class _Home extends State<Home> {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
+            onPressed: () => showGiftDialog(),
+            icon: Icon(
+              Icons.card_giftcard,
+              color: Colors.yellowAccent,
+            )
+          ),
+          IconButton(
             onPressed: () => deleteSettings(),
             icon: Icon(
               Icons.delete_forever,
@@ -64,6 +74,36 @@ class _Home extends State<Home> {
       ),
       body: Body(),
     );
+  }
+
+  void showGiftDialog() {
+    showDialog(
+      context: context,
+      //barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Daily Gift", textAlign: TextAlign.center),
+          content: new Text("Each time you open the application, collect a few points for your reserve in order to acquire new skills."),
+          actions: <Widget>[
+            new TextButton(
+              child: new Text("Take and Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                checkGiftValidity();
+              }
+            )
+          ]
+        );
+      }
+    );
+  }
+
+  void checkGiftValidity(){
+    if(giftAppOpen){
+      reserve = reserve + 5;
+      giftAppOpen = false;
+    }
+    _Body().commitSettings();
   }
 
   void deleteSettings(){
@@ -112,6 +152,7 @@ List<String> textDescriptions = [
   'Travail durant une durée totale de 1/2/3/4/5/6/7/8 heures par jour. Le niveau est validé après une période de 1 semaine.'
 ];
 String mainText = '#N/A';
+bool giftAppOpen = true;
 int globalLevel = 0;
 int reserve = 10;
 
@@ -204,9 +245,9 @@ class _Body extends State<Body> {
       child: TextButton(
         onPressed: () => showDescription(index, textDescriptions[index]),
         child: AutoSizeText(
-          textTitle[index],
+          textTitle[index]+ '\n' + level[index].toString() + '/' + levelMax[index].toString(),
           textAlign: TextAlign.center,
-          maxLines: 1,
+          maxLines: 2,
           style: TextStyle(
             color: (level[index] == levelMax[index]) ? textUpgradeColor : textColor,
             fontSize: 14
