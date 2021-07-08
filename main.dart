@@ -192,9 +192,9 @@ class _Body extends State<Body> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround, //Widgets sur toute la longueur de l'écran
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 10),
             child: Text(
               'Global Level : ' + globalLevel.toString(),
               style: TextStyle(color: Colors.white, fontSize: 16),
@@ -220,7 +220,7 @@ class _Body extends State<Body> {
   Widget lineSkillBox(int indexStart, int nbSkillsBox){
     indexStart = indexStart - 1;
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.min, //forme de pyramide
       children: [
         for (int index = indexStart; index <= indexStart+nbSkillsBox; index++)
           Row(
@@ -235,22 +235,21 @@ class _Body extends State<Body> {
 
   Widget skillBox(int index) {
     return Container(
-      height: skillHeight,
       width: skillWidth,
-      margin: EdgeInsets.only(top: 10.0, bottom: 5.0),
+      height: skillHeight,
       decoration: BoxDecoration(
         border: Border.all(color: treeLineColor, width: 3),
         color: (level[index] == levelMax[index]) ? skillMaxColor : skillColor,
       ),
       child: TextButton(
         onPressed: () => showDescription(index, textDescriptions[index]),
-        child: AutoSizeText(
+        child: Text(
           textTitle[index]+ '\n' + level[index].toString() + '/' + levelMax[index].toString(),
           textAlign: TextAlign.center,
           maxLines: 2,
           style: TextStyle(
             color: (level[index] == levelMax[index]) ? textUpgradeColor : textColor,
-            fontSize: 14
+            fontSize: 12
           )
         )
       )
@@ -261,25 +260,25 @@ class _Body extends State<Body> {
     return Visibility(
       visible: descriptions[index],
       child: Container(
-        height: 170,
-        width: MediaQuery.of(context).size.width-20,
-        margin: EdgeInsets.only(top: 10),
-        padding: EdgeInsets.only(left: 10, right: 10),
+        width: MediaQuery.of(context).size.width-40,
+        padding: EdgeInsets.all(10),
         color: upgradePanelColor,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             AutoSizeText(
               mainText,
-              maxLines: 3,
+              maxLines: 4,
               style: TextStyle(fontSize: 14.0),
             ),
+            SizedBox(height: 10),
             FloatingActionButton(
               onPressed: () => updateLevel(index),
               backgroundColor: addButtonColor,
-              child: Icon(Icons.add)
+              child: Icon(Icons.add),
             ),
+            SizedBox(height: 10),
             Text('Niveau ' + level[index].toString() + '/' + levelMax[index].toString()),
+            SizedBox(height: 10),
             Text('Points disponibles : ' + reserve.toString())
           ]
         )
