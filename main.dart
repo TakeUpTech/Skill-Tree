@@ -192,7 +192,7 @@ class _Body extends State<Body> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround, //Widgets sur toute la longueur de l'écran
+        mainAxisAlignment: MainAxisAlignment.spaceAround, //Widgets on all screen height
         children: <Widget>[
           Container(
             child: Text(
@@ -220,7 +220,7 @@ class _Body extends State<Body> {
   Widget lineSkillBox(int indexStart, int nbSkillsBox){
     indexStart = indexStart - 1;
     return Row(
-      mainAxisSize: MainAxisSize.min, //forme de pyramide
+      mainAxisSize: MainAxisSize.min, //pyramid form
       children: [
         for (int index = indexStart; index <= indexStart+nbSkillsBox; index++)
           Row(
